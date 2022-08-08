@@ -1,6 +1,7 @@
 package com.example.SpringBoot.MongoDB.resources;
 
 import com.example.SpringBoot.MongoDB.models.Book;
+import com.example.SpringBoot.MongoDB.models.enums.Genre;
 import com.example.SpringBoot.MongoDB.services.BookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
+//to commint changes use command+K
+
 @RestController
 @Slf4j
 public class BookController {
@@ -19,17 +22,19 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/books")
-    public ResponseEntity<List<Book>> getBooksList(@PathParam("bookName") String bookName, @PathParam("authorName") String authorName){
+    public ResponseEntity<List<Book>> getBooksList(@PathParam("bookName") String bookName, @PathParam("authorName") String authorName, @PathParam("genre") Genre genre){
         try{
 
             List<Book> book;
             if(bookName !=null){
-                book = bookService.getAllBooks(bookName,null);
+                book = bookService.getAllBooks(bookName,null,null);
             }
             else if(authorName != null){
-                book = bookService.getAllBooks(null,authorName);
+                book = bookService.getAllBooks(null,authorName,null);
+            }else if(genre != null){
+                book = bookService.getAllBooks(null,null,genre);
             }else{
-                book = bookService.getAllBooks(null,null);
+                book = bookService.getAllBooks(null,null,null);
             }
 
             if(book==null || book.isEmpty()){
@@ -56,7 +61,7 @@ public class BookController {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
             //Book book = bookService.getBookById(id);
-            log.info("{} book found",book.getBookName());
+            //log.info("{} book found",book.getBookName());
             return new ResponseEntity<>(book, HttpStatus.OK);
         } catch (Exception e){
             log.error(e.toString());

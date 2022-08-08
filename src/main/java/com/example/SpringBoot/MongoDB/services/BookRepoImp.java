@@ -1,6 +1,7 @@
 package com.example.SpringBoot.MongoDB.services;
 
 import com.example.SpringBoot.MongoDB.models.Book;
+import com.example.SpringBoot.MongoDB.models.enums.Genre;
 import com.example.SpringBoot.MongoDB.repository.BookRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -21,12 +22,15 @@ public class BookRepoImp implements BookService {
     }
 
     @Override
-    public List<Book> getAllBooks(String bookName, String authorName) {
+    public List<Book> getAllBooks(String bookName, String authorName, Genre genre) {
         if(bookName != null){
             return bookRepository.findByBookName(bookName);
         }
         if (authorName != null){
             return bookRepository.findByAuthorName(authorName);
+        }
+        if(genre != null){
+            return bookRepository.findByGenre(genre);
         }
         return bookRepository.findAll();
     }

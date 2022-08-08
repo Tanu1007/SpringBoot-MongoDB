@@ -1,5 +1,6 @@
 package com.example.SpringBoot.MongoDB.models;
 
+import com.example.SpringBoot.MongoDB.models.enums.Genre;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,8 +19,11 @@ public class Book {
     private String bookName;
     private String authorName;
 
-    public Book(String bookName, String authorName) {
+    private Genre genre;
+
+    public Book(String bookName, String authorName,Genre genre) {
         this.bookName = bookName;
         this.authorName = authorName;
+        this.genre = genre;
     }
 }
